@@ -1,3 +1,6 @@
+library(influxdbr)
+library(data.table)
+
 rmeta_env <- new.env(parent = emptyenv())
 
 #' Log job execution
@@ -42,6 +45,50 @@ read_increment <- function(job, destination) {
     simplifyList = TRUE
   )
   res[[1]]$increment
+}
+
+
+#' Read all uploads within a given timeperiod
+#'
+#' @rdname log-meta
+#'
+#' @export
+#' @param days number of days from now that will be included in the extract
+read_uploads <- function(job, destination, days =7L) {
+  res <- influxdbr::influx_select(
+    con = influxConnection(),
+    db = Sys.getenv("INFLUX_DB"),
+    measurement = "increment",
+    field_keys = "increment, records",
+    where = paste0("job = '", job, "' AND destination = '", destination, "' AND time > now() - ", days, "d"),
+    order_desc = TRUE,
+    return_xts = FALSE,
+    simplifyList = TRUE
+  )
+  res[[1]]
+}
+
+#' Reads execution log for a given job
+#'
+#' @rdname log-meta
+#'
+#' @export
+read_job_executions <- function(job = "", days = 7L) {
+  where.clause = paste0("time > now() - ", days, "d")
+  if (nchar(job) > 0) {
+    where.clause = paste0("job = '", job, "' AND ", where.clause)
+  }
+  res <- influxdbr::influx_select(
+    con = influxConnection(),
+    db = Sys.getenv("INFLUX_DB"),
+    measurement = "execution",
+    field_keys = "job, state, value",
+    where = where.clause,
+    order_desc = TRUE,
+    return_xts = FALSE
+  )
+  res <- data.table::data.table(res[[1]])
+  res <- dcast(res, time + job ~ state, value.var = "value", fill = 0L)
 }
 
 #' Logs start of the job execution

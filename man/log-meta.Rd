@@ -4,6 +4,8 @@
 \alias{log-meta}
 \alias{log_upload}
 \alias{read_increment}
+\alias{read_uploads}
+\alias{read_job_executions}
 \alias{log_job_start}
 \alias{log_job_end}
 \alias{log_job_error}
@@ -12,6 +14,10 @@
 log_upload(job, destination, records, increment)
 
 read_increment(job, destination)
+
+read_uploads(job, destination, days = 7L)
+
+read_job_executions(job = "", days = 7L)
 
 log_job_start(job)
 
@@ -27,11 +33,17 @@ log_job_error(job)
 \item{records}{number of records processed by the job}
 
 \item{increment}{the largest value in the increment field of the destination}
+
+\item{days}{number of days from now that will be included in the extract}
 }
 \description{
 Log job execution
 
 Gets largest increment for the given destination
+
+Read all uploads within a given timeperiod
+
+Reads execution log for a given job
 
 Logs start of the job execution
 
