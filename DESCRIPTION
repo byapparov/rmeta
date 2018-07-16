@@ -3,7 +3,7 @@ Type: Package
 Title: Provides wrapper for InfluxDb to write and read pipeline process metadata
 Version: 0.1.0
 Author: bulat.yapparov@made.com
-Maintainer: bulat.yapparov@made.com
+Maintainer: Bulat Yapparov <bulat.yapparov@made.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: GPL-2

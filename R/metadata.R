@@ -13,10 +13,11 @@ rmeta_env <- new.env(parent = emptyenv())
 #' @param destination name of the table that data is written to
 #' @param records number of records processed by the job
 #' @param increment the largest value in the increment field of the destination
-log_upload <- function(job, destination, records, increment) {
+log_data_write <- function(job, destination, records, increment) {
   dt <- data.frame(
+    type = "write",
     job = job,
-    destination = destination,
+    datasource = destination,
     records = as.integer(records),
     increment = as.integer(increment)
   )
@@ -24,8 +25,8 @@ log_upload <- function(job, destination, records, increment) {
     x = dt,
     con = influxConnection(),
     db = Sys.getenv("INFLUX_DB"),
-    tag_cols = c("job", "destination"),
-    measurement = "increment"
+    tag_cols = c("type", "job", "datasource"),
+    measurement = "task"
   )
 }
 
@@ -36,9 +37,9 @@ read_increment <- function(job, destination) {
   res <- influxdbr::influx_select(
     con = influxConnection(),
     db = Sys.getenv("INFLUX_DB"),
-    measurement = "increment",
+    measurement = "task",
     field_keys = "increment",
-    where = paste0("job = '", job, "' AND destination = '", destination, "'"),
+    where = paste0("type = 'write' AND job = '", job, "' AND datasource = '", destination, "'"),
     limit = 1,
     order_desc = TRUE,
     return_xts = FALSE,
@@ -54,13 +55,16 @@ read_increment <- function(job, destination) {
 #'
 #' @export
 #' @param days number of days from now that will be included in the extract
-read_uploads <- function(job, destination, days =7L) {
+read_data_writes <- function(job, destination, days =7L) {
   res <- influxdbr::influx_select(
     con = influxConnection(),
     db = Sys.getenv("INFLUX_DB"),
-    measurement = "increment",
+    measurement = "task",
     field_keys = "increment, records",
-    where = paste0("job = '", job, "' AND destination = '", destination, "' AND time > now() - ", days, "d"),
+    where = paste0(
+      "type = 'write' AND job = '", job,
+      "' AND datasource = '", destination,
+      "' AND time > now() - ", days, "d"),
     order_desc = TRUE,
     return_xts = FALSE,
     simplifyList = TRUE

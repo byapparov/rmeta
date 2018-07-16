@@ -2,20 +2,20 @@
 % Please edit documentation in R/metadata.R
 \name{log-meta}
 \alias{log-meta}
-\alias{log_upload}
+\alias{log_data_write}
 \alias{read_increment}
-\alias{read_uploads}
+\alias{read_data_writes}
 \alias{read_job_executions}
 \alias{log_job_start}
 \alias{log_job_end}
 \alias{log_job_error}
 \title{Log job execution}
 \usage{
-log_upload(job, destination, records, increment)
+log_data_write(job, destination, records, increment)
 
 read_increment(job, destination)
 
-read_uploads(job, destination, days = 7L)
+read_data_writes(job, destination, days = 7L)
 
 read_job_executions(job = "", days = 7L)
 
