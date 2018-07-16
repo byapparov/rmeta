@@ -35,6 +35,14 @@ Individual tasks can be logged into `task` measurement
 Logging scheduled pipeline execution and increments inside the pipeline code
 
 ```R
+
+# .Renviron
+# INFLUX_HOST=localhost
+# INFLUX_USERNAME=user
+# INFLUX_PASSWORD=pass
+# INFLUX_DB=metadata
+
+
 log_job_start("my_pipeline")
 
 # find where we finished last time
