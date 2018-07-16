@@ -49,7 +49,11 @@ log_job_start("my_pipeline")
 target_data.increment <- read_increment("my_pipeline", "target_table")
 
 # use increment to load delta (new data since last execution)
+dt <- loadDataFunction(target_data.increment)
+
 # pre-processes data and get (dt)
+dt <- prepareDataFunction(dt)
+
 target_data.new_increment <- max(dt$increment_integer_field)
 target_data.records <- nrow(dt)
 
