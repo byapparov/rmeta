@@ -41,6 +41,7 @@ read_job_executions <- function(job = "", days = 7L) {
 #' @rdname log-job
 #' @export
 start_job <- function(job) {
+  assertthat::assert_that(!is_set_job(), msg = "Should stop the job before starting a new one.")
   log_job_state(job, "start")
   rmeta_env$job <- job
 }

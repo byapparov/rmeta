@@ -2,13 +2,13 @@
 % Please edit documentation in R/task.R
 \name{log-task}
 \alias{log-task}
-\alias{end_load}
+\alias{log_load}
 \alias{log-task}
 \alias{read_increment}
 \alias{read_loads}
 \title{Metadata for task execution}
 \usage{
-end_load(destination, records, increment)
+log_load(destination, records, increment)
 
 read_increment(destination)
 
