@@ -4,18 +4,18 @@
 \alias{log-job}
 \alias{log-job}
 \alias{read_job_executions}
-\alias{job_start}
-\alias{job_end}
-\alias{job_error}
+\alias{start_job}
+\alias{end_job}
+\alias{error_job}
 \title{Metadata for task execution}
 \usage{
 read_job_executions(job = "", days = 7L)
 
-job_start(job)
+start_job(job)
 
-job_end(job)
+end_job()
 
-job_error(job)
+error_job()
 }
 \arguments{
 \item{job}{name of the data pipeline}

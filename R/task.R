@@ -12,10 +12,10 @@ NULL
 
 #' @export
 #' @rdname log-task
-log_data_write <- function(job, destination, records, increment) {
+log_load <- function(destination, records, increment) {
   dt <- data.frame(
-    type = "write",
-    job = job,
+    type = "load",
+    job = current_job(),
     datasource = destination,
     records = as.integer(records),
     increment = as.integer(increment)
@@ -33,15 +33,15 @@ log_data_write <- function(job, destination, records, increment) {
 #' `read_increment` -gets largest increment for the given destination
 #'
 #' @name log-task
-read_increment <- function(job, destination) {
+read_increment <- function(destination) {
   res <- influxdbr::influx_select(
     con = influxConnection(),
     db = Sys.getenv("INFLUX_DB"),
     measurement = "task",
     field_keys = "increment",
     where = paste0(
-      "type = 'write' AND ",
-      "job = '", job,"' AND ",
+      "type = 'load' AND ",
+      "job = '", current_job(), "' AND ",
       "datasource = '", destination, "'"
     ),
     limit = 1,
@@ -54,20 +54,20 @@ read_increment <- function(job, destination) {
 
 
 #' @details
-#' `read_data_writes` - reads all uploads within a given timeperiod
+#' `read_loads` - reads all uploads within a given timeperiod
 #'
 #' @rdname log-task
 #'
 #' @export
 #' @param days number of days from now that will be included in the extract
-read_data_writes <- function(job, destination, days =7L) {
+read_loads <- function(job, destination, days =7L) {
   res <- influxdbr::influx_select(
     con = influxConnection(),
     db = Sys.getenv("INFLUX_DB"),
     measurement = "task",
     field_keys = "increment, records",
     where = paste0(
-      "type = 'write' AND ",
+      "type = 'load' AND ",
       "job = '", job, "' AND ",
       "datasource = '", destination, "' AND ",
       "time > now() - ", days, "d"

@@ -40,8 +40,9 @@ read_job_executions <- function(job = "", days = 7L) {
 #'
 #' @rdname log-job
 #' @export
-job_start <- function(job) {
+start_job <- function(job) {
   log_job_state(job, "start")
+  rmeta_env$job <- job
 }
 
 
@@ -50,8 +51,13 @@ job_start <- function(job) {
 #'
 #' @rdname log-job
 #' @export
-job_end <- function(job) {
-  log_job_state(job, "end")
+end_job <- function() {
+  if (is_set_job()) {
+    log_job_state(current_job(), "end")
+  } else {
+    warning("Job was not started")
+  }
+  reset_job()
 }
 
 #' @details
@@ -59,8 +65,28 @@ job_end <- function(job) {
 #'
 #' @rdname log-job
 #' @export
-job_error <- function(job) {
-  log_job_state(job, "error")
+error_job <- function() {
+  if (is_set_job()) {
+    log_job_state(current_job(), "error")
+  } else {
+    warning("Job was not started")
+  }
+  reset_job()
+}
+
+#' Gets value of the current job
+current_job <- function() {
+  rmeta_env$job
+}
+
+#' Removes value of the current job
+reset_job <- function() {
+  rmeta_env$job <- NULL
+}
+
+#' @export
+is_set_job <- function() {
+  !is.null(current_job())
 }
 
 # Helper function that logs state of the job

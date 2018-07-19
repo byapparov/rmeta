@@ -2,26 +2,26 @@
 % Please edit documentation in R/task.R
 \name{log-task}
 \alias{log-task}
-\alias{log_data_write}
+\alias{end_load}
 \alias{log-task}
 \alias{read_increment}
-\alias{read_data_writes}
+\alias{read_loads}
 \title{Metadata for task execution}
 \usage{
-log_data_write(job, destination, records, increment)
+end_load(destination, records, increment)
 
-read_increment(job, destination)
+read_increment(destination)
 
-read_data_writes(job, destination, days = 7L)
+read_loads(job, destination, days = 7L)
 }
 \arguments{
-\item{job}{name of the data pipeline}
-
 \item{destination}{name of the table that data is written to}
 
 \item{records}{number of records processed by the job}
 
 \item{increment}{the largest value in the increment field of the destination}
+
+\item{job}{name of the data pipeline}
 
 \item{days}{number of days from now that will be included in the extract}
 }
@@ -31,5 +31,5 @@ Functions that allow to log execution of pipeline tasks
 \details{
 `read_increment` -gets largest increment for the given destination
 
-`read_data_writes` - reads all uploads within a given timeperiod
+`read_loads` - reads all uploads within a given timeperiod
 }
