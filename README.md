@@ -42,8 +42,7 @@ Logging scheduled pipeline execution and increments inside the pipeline code
 # INFLUX_PASSWORD=pass
 # INFLUX_DB=metadata
 
-
-log_job_start("my_pipeline")
+job_start("my_pipeline")
 
 # find where we finished last time
 target_data.increment <- read_increment("my_pipeline", "target_table")
@@ -64,5 +63,5 @@ log_data_write(
   records = target_data.records, 
   increment = target_data.new_increment
 )
-log_job_end("my_pipeline")
+job_end("my_pipeline")
 ```
