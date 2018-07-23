@@ -8,11 +8,12 @@ rmeta_env <- new.env(parent = emptyenv())
 #'  INFLUX_PORT
 #'  INFLUX_PASSWORD
 #'
+#' @inherit influxdbr::influx_connection
 influxConnection <- function(scheme = c("http", "https"),
                              host = Sys.getenv("INFLUX_HOST"),
                              user = Sys.getenv("INFLUX_USERNAME"),
                              port = Sys.getenv("INFLUX_PORT", 8086),
-                             pwd = Sys.getenv("INFLUX_PASSWORD")) {
+                             pass = Sys.getenv("INFLUX_PASSWORD")) {
   if (!is.null(rmeta_env$influx_conn)) {
     return(rmeta_env$influx_conn)
   }
@@ -23,7 +24,11 @@ influxConnection <- function(scheme = c("http", "https"),
       host = host,
       port = port,
       user = user,
-      pass = pwd
+      pass = pass
     )
   rmeta_env$influx_conn
+}
+
+influxDatabase <- function() {
+  Sys.getenv("INFLUX_DB")
 }

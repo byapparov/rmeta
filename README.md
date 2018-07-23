@@ -9,12 +9,13 @@ Scheduled batch executions are logged into `exectuion` measurement
 
 ### Execution
 
-| field         |   type        | sample values        | 
-|:-------------:|:-------------:|:---------------------|
-| time          | timestamp     | 2015-08-18T00:06:00Z |
-| job           | tag           | customer_pipeline    |
-| state         | tag           | start, end, error    |
-| value         | field         | 1                    |
+| field         |   type        | sample values                        | 
+|:-------------:|:-------------:|:-------------------------------------|
+| time          | timestamp     | 2015-08-18T00:06:00Z                 |
+| id            | tag           | d1b5ece8-075d-4448-a0a4-465e9e89644c |
+| job           | tag           | customer_pipeline                    |
+| state         | tag           | start, end, error                    |
+| value         | field         | 1                                    |
 
 Individual tasks can be logged into `task` measurement
 
@@ -23,8 +24,9 @@ Individual tasks can be logged into `task` measurement
 | field         |   type        | sample values        | 
 |:-------------:|:-------------:|:---------------------|
 | time          | timestamp     | 2015-08-18T00:06:00Z |
+| id            | tag           | d1b5ece8-075d-4448-a0a4-465e9e89644c |
 | job           | tag           | customer_pipeline    |
-| type          | tag           | load                |
+| type          | tag           | load                 |
 | datasource    | tag           | events_table         |
 | records       | field (int)   | 1000                 |
 | increment     | field (int)   | 100001               |
@@ -64,3 +66,18 @@ log_load(
 )
 end_job()
 ```
+
+## Testing
+
+To test the package locally:
+
+* Install and start influx - `brew install influxdb`
+* Set environment variables in `.Renviron` file to:
+
+```bash
+INFLUX_HOST=localhost
+INFLUX_USERNAME=user
+INFLUX_PASSWORD=pass
+INFLUX_DB=metadata
+```
+* Run tests. If `metadata` database is missing, it will be created by the tests.

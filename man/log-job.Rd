@@ -2,39 +2,35 @@
 % Please edit documentation in R/job.R
 \name{log-job}
 \alias{log-job}
-\alias{log-job}
-\alias{read_job_executions}
 \alias{start_job}
 \alias{end_job}
 \alias{error_job}
-\title{Metadata for task execution}
+\alias{log-job}
+\alias{read_job_executions}
+\title{Metadata for job execution}
 \usage{
-read_job_executions(job = "", days = 7L)
-
 start_job(job)
 
 end_job()
 
 error_job()
+
+read_job_executions(job = "", days = 7L)
 }
 \arguments{
 \item{job}{name of the data pipeline}
 
-\item{destination}{name of the table that data is written to}
-
-\item{records}{number of records processed by the job}
-
-\item{increment}{the largest value in the increment field of the destination}
+\item{days}{number of days to select}
 }
 \description{
 Functions that allow to log and query job executions.
 }
 \details{
-`read_job_executions` - reads execution log for a given job
-
 `log_job_start` - logs start of the job execution
 
 `log_job_end` - logs end of the job exectuion
 
 `log_job_error` - logs errored job
+
+`read_job_executions` - reads execution log for a given job
 }
