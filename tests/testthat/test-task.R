@@ -28,4 +28,9 @@ describe("read_increment", {
     expect_equal(read_increment("test_dataset"), 1101)
     end_job()
   })
+  it("Gets zero as increment value for destination without previous loads", {
+    start_job("test_pipeline")
+    expect_equal(read_increment("test_dataset_new"), 0)
+    end_job()
+  })
 })
