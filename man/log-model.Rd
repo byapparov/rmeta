@@ -9,6 +9,10 @@ log_model_performance(dataset, target, test, algorithm, metric, group, records,
   value)
 }
 \arguments{
+\item{dataset}{name of the dataset that was targed by the model, e.g. `sessions`}
+
+\item{target}{explained variable, e.g. `conversion rate``}
+
 \item{test}{boolean defines whether validation was done on test or training dataset}
 
 \item{algorithm}{name of the method that was used to create the model}
@@ -17,11 +21,9 @@ log_model_performance(dataset, target, test, algorithm, metric, group, records,
 
 \item{group}{group within the data if data is split into different segments}
 
+\item{records}{size of the sample that was used to estimate the model}
+
 \item{value}{value of the model performance metric on a given sample}
-
-\item{traget}{explained variable}
-
-\item{size}{size of the sample that was used to estimate the model}
 }
 \description{
 Logs performance of the statistical or machine learning model into InfluxDb

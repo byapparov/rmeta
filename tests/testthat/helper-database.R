@@ -1,1 +1,2 @@
-influxdbr::create_database(influxConnection(),  influxDatabase())
+library(rmeta)
+influxdbr::create_database(rmeta::influxConnection(),  influxDatabase())

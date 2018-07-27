@@ -2,6 +2,8 @@
 
 export(end_job)
 export(error_job)
+export(influxConnection)
+export(influxDatabase)
 export(is_set_job)
 export(log_load)
 export(log_model_performance)
