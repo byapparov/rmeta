@@ -1,30 +1,37 @@
-context("model")
+context("task")
 
-describe("log_model_performance()", {
+describe("log_load()", {
   it("Creates task record in the meta database correlated to the current job through id", {
     skip_on_travis()
     id <- start_job("test_pipeline")
-    log_model_performance(
-      dataset = "sessions",
-      target = "conversion",
-      test = TRUE,
-      algorithm = "RandomForest",
-      metric = "R-Squared",
-      group = "all",
-      records = 1000,
-      value = 0.5
-    )
+    log_load("test_dataset", 100, 1001)
+    log_load("test_dataset", 100, 1101)
 
-    performance <- influxdbr::influx_query(
+    tasks <- influxdbr::influx_query(
       con = influxConnection(),
       db = influxDatabase(),
-      query = paste0("SELECT * FROM model WHERE id = '", id, "'"),
+      query = paste0("SELECT * FROM task WHERE id = '", id, "'"),
       return_xts = FALSE,
       simplifyList = TRUE
     )
-    performance <- performance[[1]]
-    expect_equal(performance$records, c(1000))
-    expect_equal(performance$value, c(0.5))
+    tasks <- tasks[[1]]
+    expect_equal(tasks$records, c(100, 100))
+    expect_equal(tasks$increment, c(1001, 1101))
     end_job()
   })
 })
+
+describe("read_increment", {
+  it("Gets last increment value for a given destination within job execution", {
+    skip_on_travis()
+    start_job("test_pipeline")
+    expect_equal(read_increment("test_dataset"), 1101)
+    end_job()
+  })
+  it("Gets zero as increment value for destination without previous loads", {
+    start_job("test_pipeline")
+    expect_equal(read_increment("test_dataset_new"), 0)
+    end_job()
+  })
+})
+
