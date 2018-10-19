@@ -53,7 +53,9 @@ read_increment <- function(destination) {
     return_xts = FALSE,
     simplifyList = TRUE
   )
-  res <- res[[1]]$increment
+
+  res <- data.frame(res[[1]])
+  res <- res$increment
   if (is.null(res)) {
     0L
   }
