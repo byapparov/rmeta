@@ -80,4 +80,5 @@ INFLUX_USERNAME=user
 INFLUX_PASSWORD=pass
 INFLUX_DB=metadata
 ```
-* Run tests. If `metadata` database is missing, it will be created by the tests.
+* If you are testing `rmeta` package, run the tests. If `metadata` database is missing, it will be created by the tests.
+* If you are testing code that uses `rmeta` create `metadata` database by running `CREATE DATABASE metadata` in the influxdb consol application. To start influxdb service run `influxd` in the terminal (macos).
