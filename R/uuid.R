@@ -11,7 +11,7 @@ uuid <- function(){
     "4",
     substr(baseuuid(), 13, 15),
     "-",
-    sample(c("8" ,"9" ,"a" ,"b"),1),
+    sample(c("8", "9", "a", "b"), 1),
     substr(baseuuid(), 16, 18),
     "-",
     substr(baseuuid(), 19, 30),

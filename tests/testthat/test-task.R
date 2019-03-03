@@ -34,4 +34,3 @@ describe("read_increment", {
     end_job()
   })
 })
-

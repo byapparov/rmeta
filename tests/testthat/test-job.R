@@ -1,6 +1,6 @@
 context("job")
 
-describe("job_start()", {
+describe("start_job()", {
   it("Creates excecution start record in the meta database", {
     skip_on_travis()
     start_job("test")
@@ -15,7 +15,7 @@ describe("job_start()", {
   })
 })
 
-describe("job_error()", {
+describe("error_job()", {
   it("Creates execution error record in the meta database and resets the job", {
     skip_on_travis()
     start_job("test")

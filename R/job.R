@@ -85,6 +85,7 @@ is_set_job <- function() {
 # Helper function that logs state of the job
 log_job_state <- function(job, state) {
   dt <- data.frame(value = 1, id = job$id, job = job$name, state = state)
+
   influxdbr::influx_write(
     x = dt,
     con = influxConnection(),
@@ -104,9 +105,9 @@ log_job_state <- function(job, state) {
 #' @param days number of days to select
 read_job_executions <- function(job = "", days = 7L) {
   id <- time <- NULL
-  where.clause = paste0("time > now() - ", days, "d")
+  where.clause <- paste0("time > now() - ", days, "d")
   if (nchar(job) > 0) {
-    where.clause = paste0("job = '", job, "' AND ", where.clause)
+    where.clause <- paste0("job = '", job, "' AND ", where.clause)
   }
   res <- influxdbr::influx_select(
     con = influxConnection(),
@@ -129,4 +130,3 @@ read_job_executions <- function(job = "", days = 7L) {
   )
   res <- merge(executions, times, by = "id", all.x = T)
 }
-
